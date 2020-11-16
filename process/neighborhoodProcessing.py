@@ -1,6 +1,6 @@
 import numpy as np
 import skimage.io as io
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from scipy import ndimage
 from skimage.color import rgb2gray
 
@@ -13,9 +13,8 @@ class neighborhoodProcessing:
         img1 = self.imgConvol(k)
         return img1
     
-    def smoothingGassian(self, kernel_size=5):
+    def smoothingGassian(self, kernel_size=5, sigma=5):
         gaussian = lambda x, y: np.exp(-(x ** 2 + y ** 2) / (2 * (sigma ** 2)))
-        sigma = 5
         k = np.zeros([kernel_size, kernel_size])
         for i in range(kernel_size):
             for j in range(kernel_size):
@@ -39,9 +38,9 @@ class neighborhoodProcessing:
         img1 = rgb2gray(self.img) - img1
         return img1
     
-    def sharpingUnsharpMaskAndHighboost(self, kernel_size=5):
+    def sharpingUnsharpMaskAndHighboost(self, kernel_size=5, sigma=5):
         amount = 10
-        img = self.smoothingGassian(kernel_size)
+        img = self.smoothingGassian(kernel_size, sigma)
         img1 = ((amount + 1) * self.img) - amount * img
         img1 = np.maximum(img1, np.zeros(img1.shape))
         img1 = np.minimum(img1, np.ones(img1.shape))
@@ -82,7 +81,7 @@ class neighborhoodProcessing:
                 output[i-pad, j-pad] = (img[i-pad: i+pad+1, j-pad: j+pad+1] * w).sum()  
         return output
 
-    def displayOriginalImg(self):
-        plt.figure(figsize = (15, 7))
-        plt.imshow(self.img, cmap="gray", vmin="0", vmax="255")
-        plt.axis("off")
+    # def displayOriginalImg(self):
+    #     plt.figure(figsize = (15, 7))
+    #     plt.imshow(self.img, cmap="gray", vmin="0", vmax="255")
+    #     plt.axis("off")

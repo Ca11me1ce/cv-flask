@@ -19,7 +19,7 @@
     <title>COSC 455 Image Processing Toolkit - YANG</title>
 </head>
 <body style="background-color: #e6fcff;" >
-<div class="container" style="background-color: #b5c9c3; height: 1000px;">
+<div class="container" style="background-color: #b5c9c3; height: 1100px;">
     <h1 style="padding-top: 30px;">COSC 455 Image Processing Toolkit - YANG</h1>
     
     
@@ -29,69 +29,111 @@
     <input id="import" type="button" value="Upload Image" onclick="upload()" class="btn btn-outline-primary"/>
     <input id="clear" type="button" value="Clear Panel" onclick="clear_panel()" class="btn btn-outline-primary"/>
     <input id="reset" type="button" value="Reset Image" onclick="reset()" class="btn btn-outline-primary"/>
+    <a href='../static/images/image1.png' download='image.png'><button type='button' class='btn btn-outline-primary'>Save Image</button></a>
     </div>
     
     <div class="row" style="height: 600px;">
         <div class="col-sm-4">
             <h3 style="padding-top: 10px;">Original Image</h3><hr />
-        <div id="show_image1"><img src='../static/images/bg.png' style='width: 350px; padding-bottom: 80px; padding-top: 80px;' class='img-thumbnail'/></div>
-        <br/>
+        <div id="show_image1"><img id='img1' src='../static/images/bg.png' style='width: 350px; padding-bottom: 80px; padding-top: 80px;' class='img-thumbnail'/></div>
+        <br/><br/>
+                    <div style="border: double; height: 420px;">
+                        <h4>Original Image Histogram</h4><hr />
+                        <div id='show_hist1'></div>
+                    </div>
         </div>
         
         <div class="col-sm-4">
             <h3 style="padding-top: 10px;">Processed Image</h3><hr />
         <div id="show_image2"><img src='../static/images/bg.png' style='width: 350px; padding-bottom: 80px; padding-top: 80px;' class='img-thumbnail'/></div>
+        <br /><br/>
+        <div style="border: double; height: 420px;">
+            <h4>Processed Image Histogram</h4><hr />
+            <div id='show_hist2'></div>
+        </div>
+            
         </div>
 
 
         <div class="col-sm-4" style="background-color: #bdd7da;">
-                    <!-- <label for="modes"><h4><strong>Image Processing Modes: </strong></h4></label>
-                    <select id="modes" onchange="displayMode()" class="custom-select">
-                        <option value="None">Please Select a Processing Mode</option>
-                        <optgroup label="Point Processing">
-                            <option value="negative">Negative</option>
-                            <option value="intensity">Intensity-Level Slicing</option>
-                            <option value="constrast">Constrast Stretching</option>
-                            
-                            <option value="hist">Histogram Equalization</option>
-                            <option value="power">Power-Law</option>
-                        </optgroup>
-                        <optgroup label="Neighborhood Processing">
-                            <option value="box">Smoothing with Box</option>
-                            <option value="gaussian">Smoothing with Gaussian</option>
-                            <option value="laplacian">Sharping with Laplacian</option>
-                            <option value="unsharp">Sharping with Unsharp Mask and Highboost</option>
-                            <option value="median">Order Statistic Median Filtering</option>
-                        </optgroup>
-                    </select>
-
-                    <hr />
-                    <div id="show_mode">
-
-                    </div> -->
                     <div class="btn-group btn-group-justified" style="padding-top: 10px;">
                         <a href="#" id='point_but' class="btn btn-primary btn-sm" onclick="pointClick()">Point Processing</a>
                         <a href="#" id= 'neibor_b' class="btn btn-secondary btn-sm" onclick="neiborClick()">Neighborhood Processing</a>
                       </div>
                       <hr />
-                    <div id="show_mode">
+                    <div id="show_mode" style="padding-left: 5px; height: 400px;">
                         <input type="radio" id="negative" name="mode" value="negative" onchange='displayMode(1)'>
                         <label for="negative">Negative</label><br><br />
 
                         <input type="radio" id="intensity" name="mode" value="intensity" onchange='displayMode(2)'>
                         <label for="intensity">Intensity-Level Slicing</label>
-                        <div style="padding-left: 40px;"><span class='font-weight-bold indigo-text mr-2 mt-1'>1</span><input id='intensity_level' class='border-0' type='range' min='1' max='7' onchange='displayIntnsity()' /><span class='font-weight-bold indigo-text ml-2 mt-1'>7</span></div><span id='display_intensity' class='font-weight-bold indigo-text ml-2 mt-1' style="padding-left: 40px;">Intensity Level: 4</span><br />
+                        <div style="padding-left: 40px;"><span class='font-weight-bold indigo-text mr-2 mt-1'>1</span>
+                            <input id='intensity_level' class='border-0' type='range' min='1' max='7' onchange='displayIntnsity()' />
+                            <span class='font-weight-bold indigo-text ml-2 mt-1'>7</span><br/>
+                            <span id='display_intensity' class='font-weight-bold indigo-text ml-2 mt-1'>Intensity Level: 4</span>                        
+                            </div>
+                            <br/>
 
                         <input type="radio" id="constrast" name="mode" value="constrast" onchange='displayMode(3)'>
                         <label for="constrast">Constrast Stretching</label><br><br />
 
-                        <input type="radio" id="hist" name="mode" value="hist">
+                        <input type="radio" id="hist" name="mode" value="hist" onchange='displayMode(4)'>
                         <label for="hist">Histogram Equalization</label><br><br />
 
                         <input type="radio" id="power" name="mode" value="power" onchange="displayMode(5)">
                         <label for="power">Power-Law</label><br />
                             <label for="power" style="padding-left: 40px;">Power Value: </label>
                             <input type="number" value='0.3' id="power_value" name="power" min="0.1" max="1" step="0.1" style="padding-left: 40px;" onchange="displayMode(5)">
+                    
+                            <!-- commont temply+++++++++++++++++++++++ -->
+
+                            <!-- <input type="radio" id="smoothing" name="mode" value="smoothing" onchange='displayMode(6)'>
+                            <label for="smoothing">Smoothing</label>
+                                <div style="padding-left: 40px;">
+                                    <input type="radio" id="box" name="smooth" value="box" checked onchange='displayMode(6)'>
+                                    <label for="box">Smoothing with Box</label><br>
+                                    <input type="radio" id="gaussian" name="smooth" value="gaussian" onchange='displayMode(6)'>
+                                    <label for="gaussian">Smoothing with Gaussian</label>
+                                    <label for="kernel" style="padding-left: 40px;">Kernel Size: </label>
+                                    <input type="number" value='3' id="kernel_size_smoothing" name="kernel" min="3" max="21" step="2" onchange="displayMode(6)">
+                                    <label for="sigma" style="padding-left: 40px;">Sigma for Gaussian: </label>
+                                    <input type="number" value='5' id="sigma_gaussian" name="sigma" min="3" max="10" step="1" onchange="displayMode(6)">
+                                </div>
+                            <br />
+
+                            <input type="radio" id="laplacian" name="mode" value="laplacian" onchange='displayMode(7)'>
+                            <label for="laplacian">Sharping with Laplacian</label><br/><br/>
+                                    
+
+                            <input type="radio" id="unsharp" name="mode" value="unsharp" onchange='displayMode(8)'>
+                            <label for="unsharp">Sharping with Unsharp Mask and Highboost</label><br>
+                                <div style="padding-left: 40px;">
+                                    <label for="kernel" style="padding-left: 40px;">Kernel Size: </label>
+                                    <input type="number" value='3' id="kernel_size_unsharp" name="power" min="3" max="21" step="2" onchange='displayMode(8)'>    
+                                    <label for="sigma" style="padding-left: 40px;">Sigma for Gaussian: </label>
+                                    <input type="number" value='5' id="sigma_unsharp" name="sigma" min="3" max="10" step="1" onchange='displayMode(8)'>
+                                </div>
+                            <br />
+                            <input type="radio" id="median" name="mode" value="median" onchange='displayMode(9)'>
+                            <label for="median">Order Statistic Median Filtering</label><br><br /> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </div>
 
                     <br/>
@@ -99,12 +141,14 @@
                     <hr />
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Logs </label>
-                        <textarea id='logs' class="form-control" id="exampleFormControlTextarea1" rows="6" style="font-size:10px;font-family:Arial;" readonly></textarea>
+                        <textarea id='logs' class="form-control" id="exampleFormControlTextarea1" rows="15" style="font-size:12px;font-family:Arial;" readonly></textarea>
                     </div>
 
         </div>
     </div>
 </div>
-
+<hr/>
+<footer style="text-align: center;">COSC 455 Computer Vision and Image Processing - Fall 2020</footer>
+<br />
 </body>
 </html>

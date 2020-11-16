@@ -1,1 +1,0 @@
-<div class='d-flex justify-content-center my-4'><span class='font-weight-bold indigo-text mr-2 mt-1'>1</span><input id='intensity_level' class='border-0' type='range' min='1' max='7' onchange='displayIntnsity()' /><span class='font-weight-bold indigo-text ml-2 mt-1'>7</span></div><span id='display_intensity' class='font-weight-bold indigo-text ml-2 mt-1'>Intensity Level: 4</span>
